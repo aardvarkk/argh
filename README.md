@@ -5,7 +5,7 @@ Seriously? You made another command line parser? Yep. Deal with it.
 
 ## Features
 
-* A single header file
+* A single header file (`argh.h`)
 * No dependencies
 * Configuration file support
 * Supports both flags and options that take an argument
@@ -15,10 +15,10 @@ Seriously? You made another command line parser? Yep. Deal with it.
 
 ### Easy
 
-* Create a flag
-* Create an option with an argument
-* Parse the command line options
-* Print the usage
+* Create a flag (`addFlag()`)
+* Create an option with an argument (`addOption<T>`)
+* Parse the command line options (`parse()`)
+* Print the usage (`getUsage()`)
 
 ```cpp
 int demo_easy(int argc, char const* argv[])
@@ -46,9 +46,9 @@ int demo_easy(int argc, char const* argv[])
 
 ### Medium
 
-* Use different data types
-* Use variable-length options
-* Load from a config file
+* Use different data types (`bool`, `float`)
+* Use variable-length options (`std::vector<float>`)
+* Load from a config file (`load()`)
 
 ```cpp
 int demo_medium(int argc, char const* argv[])
@@ -89,7 +89,7 @@ int demo_medium(int argc, char const* argv[])
 
 ### Hard
 
-* Use a different delimiter for variable-length options
+* Use a different delimiter for variable-length options (`Argh argh('|');`)
 
 ```cpp
 int demo_hard(int argc, char const* argv[])
