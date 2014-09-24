@@ -10,8 +10,8 @@ int demo_easy(int argc, char const* argv[])
   int  mynumber;
 
   Argh argh;
-  argh.addFlag(help, "--help", "Display this message");
-  argh.addOption<int>(mynumber, 123, "--mynumber", "The default value here is 123");
+  argh.addFlag(help, "--help");
+  argh.addOption<int>(mynumber, 123, "--mynumber");
   argh.parse(argc, argv);
 
   if (help) {
@@ -28,6 +28,7 @@ int demo_medium(int argc, char const* argv[])
 {
   std::cout << "::: I've been around the block! :::" << std::endl;
 
+  bool                     help;
   bool                     boolValue;
   float                    floatValue;
   int                      intValue;
@@ -36,6 +37,7 @@ int demo_medium(int argc, char const* argv[])
   std::vector<std::string> multiStringValue;
 
   Argh argh;
+  argh.addFlag(help, "--help", "Display this message");
   argh.addOption<bool>(boolValue, false, "--boolvalue", "True? False?");
   argh.addOption<float>(floatValue, 3.14f, "--floatvalue", "Get real");
   argh.addOption<int>(intValue, 123, "--intvalue", "Optional description");
