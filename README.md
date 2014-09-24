@@ -13,7 +13,7 @@ Seriously? You made another command line parser? Yep. Deal with it.
 * Create an option with an argument
 * Parse the command line options
 * Print the usage
-```
+```cpp
 int demo_easy(int argc, char const* argv[])
 {
   std::cout << "::: Babytown Frolics! :::" << std::endl;
@@ -40,7 +40,7 @@ int demo_easy(int argc, char const* argv[])
 * Use different data types
 * Use variable-length options
 * Load from a config file
-```
+```cpp
 int demo_medium(int argc, char const* argv[])
 {
   std::cout << "::: I've been around the block! :::" << std::endl;
@@ -78,7 +78,7 @@ int demo_medium(int argc, char const* argv[])
 ```
 ### Hard
 * Use a different delimiter for variable-length options
-```
+```cpp
 int demo_hard(int argc, char const* argv[])
 {
   std::cout << "::: Futurejet fighter pilot! :::" << std::endl;
