@@ -69,23 +69,6 @@ protected:
   std::string msg;
 };
 
-class FlagImpl : public Option {
-public:
-  FlagImpl(std::string const& name, std::string const& msg) :
-    name(name),
-    msg(msg) 
-  {}
-
-  std::string getDefault() { return ""; }
-  std::string getName() { return name; }
-  std::string getMessage() { return msg; }
-  void setValue(std::string const& val) {}
-
-protected:
-  std::string name;
-  std::string msg;
-};
-
 template<typename T>
 class MultiOptionImpl : public Option
 {
@@ -171,6 +154,23 @@ protected:
   char delim;
 };
 
+class FlagImpl : public Option {
+public:
+  FlagImpl(std::string const& name, std::string const& msg) :
+    name(name),
+    msg(msg) 
+  {}
+
+  std::string getDefault() { return ""; }
+  std::string getName() { return name; }
+  std::string getMessage() { return msg; }
+  void setValue(std::string const& val) {}
+
+protected:
+  std::string name;
+  std::string msg;
+};
+
 class Argh {
 public:
   Argh(char delim = ',') : delim(delim) {}
@@ -220,9 +220,9 @@ public:
     return ret.str();
   }
 
-  bool hasFlag(std::string const& flag) {
+  bool isParsed(std::string const& name) {
     for (auto o : options) {
-      if (flag == o->getName() && o->getParsed()) {
+      if (name == o->getName() && o->getParsed()) {
         return true;
       }
     }

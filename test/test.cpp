@@ -64,7 +64,7 @@ namespace test
       const int argc = 1;
       char const* argv[argc] = { "--flagvalue" };
       argh.parse(argc, argv);
-      Assert::IsTrue(argh.hasFlag("--flagvalue"));
+      Assert::IsTrue(argh.isParsed("--flagvalue"));
     }
 
     TEST_METHOD(FlagInFile)
@@ -72,7 +72,7 @@ namespace test
       Argh argh;
       argh.addFlag("--flagvalue", "Flag value");
       argh.load("../argh.opts");
-      Assert::IsTrue(argh.hasFlag("--flagvalue"));
+      Assert::IsTrue(argh.isParsed("--flagvalue"));
     }
 
     TEST_METHOD(LoadAndParse)
@@ -112,9 +112,11 @@ namespace test
       char const* argv[argc] = { "--complex", "o n e|t w o|t h r e e" };
       std::vector<std::string> complex;
       argh.addMultiOption<std::string>(complex, "easy|stuff", "--complex");
+      Assert::IsFalse(argh.isParsed("--complex"));
       argh.parse(argc, argv);
       Assert::AreEqual<size_t>(complex.size(), 3);
       Assert::IsTrue(complex.front() == "o n e");
+      Assert::IsTrue(argh.isParsed("--complex"));
     }
 	};
 }

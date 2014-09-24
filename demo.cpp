@@ -25,7 +25,7 @@ int main(int argc, char const* argv[])
 
   std::cout << argh.getUsage() << std::endl;
 
-  if (argh.hasFlag("--help")) {
+  if (argh.isParsed("--help")) {
     return EXIT_SUCCESS;
   }
 
