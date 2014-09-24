@@ -1,15 +1,20 @@
-Argh!
-====
+# Argh!
 
-Seriously? You made another command line parser? Yep. Deal with it.
+Seriously? You made another C++ command line parser? Yep. Deal with it.
 
-## Features
+## Pros
 
-* A single header file `argh.h`
+* Single header file `argh.h`
 * No dependencies
 * Configuration file support
 * Supports both flags and options that take an argument
 * Supports variable-length argument lists
+* Easy to use
+* Simple and readable code
+
+## Cons
+
+* I don't like error checking
 
 ## Demos
 
