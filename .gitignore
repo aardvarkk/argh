@@ -1,4 +1,7 @@
-Debug/*
-Release/*
+Debug
+Release
+ipch/*
 argh*
+*.user
 !argh.h
+!argh.opts
