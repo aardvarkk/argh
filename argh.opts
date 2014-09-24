@@ -5,5 +5,9 @@
 --floatvalue
 3.14
 --stringvalue
-"Hi there"
+Hi there
 --flagvalue
+--multivalue
+7,8,9
+--multistringvalue
+Here are some,well,"delimited" strings
