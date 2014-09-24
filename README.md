@@ -1,18 +1,25 @@
 Argh!
 ====
+
 Seriously? You made another command line parser? Yep. Deal with it.
+
 ## Features
+
 * A single header file
 * No dependencies
 * Configuration file support
 * Supports both flags and options that take an argument
 * Supports variable-length argument lists
+
 ## Demos
+
 ### Easy
+
 * Create a flag
 * Create an option with an argument
 * Parse the command line options
 * Print the usage
+
 ```cpp
 int demo_easy(int argc, char const* argv[])
 {
@@ -36,10 +43,13 @@ int demo_easy(int argc, char const* argv[])
   return EXIT_SUCCESS;
 }
 ```
+
 ### Medium
+
 * Use different data types
 * Use variable-length options
 * Load from a config file
+
 ```cpp
 int demo_medium(int argc, char const* argv[])
 {
@@ -76,8 +86,11 @@ int demo_medium(int argc, char const* argv[])
   return EXIT_SUCCESS;
 }
 ```
+
 ### Hard
+
 * Use a different delimiter for variable-length options
+
 ```cpp
 int demo_hard(int argc, char const* argv[])
 {
