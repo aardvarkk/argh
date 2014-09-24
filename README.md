@@ -11,6 +11,7 @@ Seriously? You made another C++ command line parser? Yep. Deal with it.
 * Supports variable-length argument lists
 * Easy to use
 * Simple and readable code
+* Permissive license
 
 ## Cons
 
