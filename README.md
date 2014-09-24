@@ -15,6 +15,7 @@ Seriously? You made another C++ command line parser? Yep. Deal with it.
 
 ## Cons
 
+* Requires a recent compiler
 * I don't like error checking
 
 ## Demos
