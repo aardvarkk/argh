@@ -34,10 +34,10 @@ public:
     msg(msg) 
   { var = default_val; }
 
-  std::string getDefault() { std::stringstream ss; ss << default_val; return ss.str(); }
+  virtual std::string getDefault() { std::stringstream ss; ss << default_val; return ss.str(); }
   std::string getName() { return name; }
   std::string getMessage() { return msg; }
-  void setValue(std::string const& val) { std::stringstream ss(val); ss >> var; }
+  virtual void setValue(std::string const& val) { std::stringstream ss(val); ss >> var; }
 
 protected:
   T default_val;
@@ -46,27 +46,15 @@ protected:
   std::string msg;
 };
 
-template<>
-class OptionImpl<std::string> : public Option
+class OptionStringImpl : public OptionImpl<std::string>
 {
 public:
-  OptionImpl(std::string& var, std::string const& default_val, std::string const& name, std::string const& msg) :
-    var(var), 
-    default_val(default_val), 
-    name(name), 
-    msg(msg) 
-  { var = default_val; }
+  OptionStringImpl(std::string& var, std::string const& default_val, std::string const& name, std::string const& msg) :
+    OptionImpl(var, default_val, name, msg)
+  {}
 
   std::string getDefault() { std::stringstream ss; ss << "\"" << default_val << "\""; return ss.str(); }
-  std::string getName() { return name; }
-  std::string getMessage() { return msg; }
   void setValue(std::string const& val) { var = val; }
-
-protected:
-  std::string default_val;
-  std::string& var;
-  std::string name;
-  std::string msg;
 };
 
 template<typename T>
@@ -94,7 +82,7 @@ public:
 
   std::string getName() { return name; }
   std::string getMessage() { return msg; }
-  void setValue(std::string const& val) {
+  virtual void setValue(std::string const& val) {
     var.clear();
     std::stringstream ss(val);
     T elem;
@@ -113,31 +101,13 @@ protected:
   char delim;
 };
 
-template<>
-class MultiOptionImpl<std::string> : public Option
+class MultiOptionStringImpl : public MultiOptionImpl<std::string>
 {
 public:
-  MultiOptionImpl(std::vector<std::string>& var, std::string const& default_vals, std::string const& name, std::string const& msg, char delim) :
-    var(var), 
-    default_vals(default_vals),
-    name(name), 
-    msg(msg),
-    delim(delim)
-  {
-    setValue(default_vals);
-  }
+  MultiOptionStringImpl(std::vector<std::string>& var, std::string const& default_vals, std::string const& name, std::string const& msg, char delim) :
+    MultiOptionImpl(var, default_vals, name, msg, delim)
+  {}
 
-  std::string getDefault() 
-  {  
-    std::stringstream ss; 
-    ss << "\"";
-    ss << default_vals;
-    ss << "\"";
-    return ss.str(); 
-  }
-
-  std::string getName() { return name; }
-  std::string getMessage() { return msg; }
   void setValue(std::string const& val) {
     var.clear();
     std::stringstream ss(val);
@@ -145,13 +115,6 @@ public:
       var.push_back(val_str);
     }
   }
-
-protected:
-  std::string default_vals;
-  std::vector<std::string>& var;
-  std::string name;
-  std::string msg;
-  char delim;
 };
 
 class FlagImpl : public Option {
@@ -194,9 +157,19 @@ public:
     options.push_back(new OptionImpl<T>(var, default_val, name, msg));
   }
 
+  template<>
+  void addOption(std::string& var, std::string const& default_val, std::string const& name, std::string const& msg) {
+    options.push_back(new OptionStringImpl(var, default_val, name, msg));
+  }
+
   template<typename T>
   void addMultiOption(std::vector<T>& var, std::string const& default_vals, std::string const& name, std::string const& msg = "") {
     options.push_back(new MultiOptionImpl<T>(var, default_vals, name, msg, delim));
+  }
+
+  template<>
+  void addMultiOption(std::vector<std::string>& var, std::string const& default_vals, std::string const& name, std::string const& msg) {
+    options.push_back(new MultiOptionStringImpl(var, default_vals, name, msg, delim));
   }
 
   void addFlag(std::string const& name, std::string const& msg = "") {
