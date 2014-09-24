@@ -60,19 +60,21 @@ namespace test
     TEST_METHOD(FlagInCommandLine)
     {
       Argh argh;
-      argh.addFlag("--flagvalue", "Flag value");
+      bool flagvalue;
+      argh.addFlag(flagvalue, "--flagvalue", "Flag value");
       const int argc = 1;
       char const* argv[argc] = { "--flagvalue" };
       argh.parse(argc, argv);
-      Assert::IsTrue(argh.isParsed("--flagvalue"));
+      Assert::IsTrue(flagvalue);
     }
 
     TEST_METHOD(FlagInFile)
     {
       Argh argh;
-      argh.addFlag("--flagvalue", "Flag value");
+      bool flagvalue;
+      argh.addFlag(flagvalue, "--flagvalue", "Flag value");
       argh.load("../argh.opts");
-      Assert::IsTrue(argh.isParsed("--flagvalue"));
+      Assert::IsTrue(flagvalue);
     }
 
     TEST_METHOD(LoadAndParse)

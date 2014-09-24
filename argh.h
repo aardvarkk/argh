@@ -18,7 +18,7 @@ public:
   virtual void setValue(std::string const& val) = 0;
   
   bool getParsed() { return parsed; }
-  void setParsed(bool parsed) { this->parsed = parsed; }
+  virtual void setParsed(bool parsed) { this->parsed = parsed; }
 
 protected:
   bool parsed;
@@ -119,17 +119,22 @@ public:
 
 class FlagImpl : public Option {
 public:
-  FlagImpl(std::string const& name, std::string const& msg) :
+  FlagImpl(bool& flag, std::string const& name, std::string const& msg) :
+    flag(flag),
     name(name),
     msg(msg) 
-  {}
+  {
+    flag = false;
+  }
 
   std::string getDefault() { return ""; }
   std::string getName() { return name; }
   std::string getMessage() { return msg; }
+  void setParsed(bool parsed) { Option::setParsed(parsed); flag = parsed; }
   void setValue(std::string const& val) {}
 
 protected:
+  bool& flag;
   std::string name;
   std::string msg;
 };
@@ -172,8 +177,8 @@ public:
     options.push_back(new MultiOptionStringImpl(var, default_vals, name, msg, delim));
   }
 
-  void addFlag(std::string const& name, std::string const& msg = "") {
-    options.push_back(new FlagImpl(name, msg));
+  void addFlag(bool& flag, std::string const& name, std::string const& msg = "") {
+    options.push_back(new FlagImpl(flag, name, msg));
   }
 
   std::string getUsage() {
