@@ -1,5 +1,4 @@
-#ifndef ARGH_H
-#define ARGH_H
+#pragma once
 
 #include <algorithm>
 #include <fstream>
@@ -253,5 +252,3 @@ protected:
   std::vector<Option*> options;
   char delim;
 };
-
-#endif
