@@ -161,7 +161,6 @@ public:
     options.push_back(new OptionImpl<T>(var, default_val, name, msg));
   }
 
-  template<>
   void addOption(std::string& var, std::string const& default_val, std::string const& name, std::string const& msg) {
     options.push_back(new OptionStringImpl(var, default_val, name, msg));
   }
@@ -171,7 +170,6 @@ public:
     options.push_back(new MultiOptionImpl<T>(var, default_vals, name, msg, delim));
   }
 
-  template<>
   void addMultiOption(std::vector<std::string>& var, std::string const& default_vals, std::string const& name, std::string const& msg) {
     options.push_back(new MultiOptionStringImpl(var, default_vals, name, msg, delim));
   }
