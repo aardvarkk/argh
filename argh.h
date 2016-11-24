@@ -220,11 +220,13 @@ public:
     return false;
   }
 	
-	bool allRequiredParsed() {
+	std::vector<std::string> missingRequired() {
+		std::vector<std::string> missing;
     for (auto o : options) {
-      if (o->getRequired() && !o->getParsed()) return false;
+      if (o->getRequired() && !o->getParsed())
+				missing.push_back(o->getName());
     }
-		return true;
+		return missing;
 	}
 
   bool load(std::string const& filename) {
