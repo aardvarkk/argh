@@ -618,15 +618,19 @@ public:
     size_t msg_space     = getLongestMessage() + 1;
 
     stringstream ret;
-    ret << std::left;
+    ret << std::left
+        << std::setw(static_cast<int>(name_space))    << "Option"
+        << std::setw(static_cast<int>(default_space)) << "Default"
+        << std::setw(static_cast<int>(msg_space))     << "Description"
+        << "Required\n";
     for (auto o : m_options)
     {
       ret
         << std::setw(static_cast<int>(name_space))    << o->getName()
         << std::setw(static_cast<int>(default_space)) << o->getDefault()
         << std::setw(static_cast<int>(msg_space))     << o->getMessage()
-        << (o->getRequired() ? "REQUIRED" : "NOT REQUIRED")
-        << std::endl;
+        << (o->getRequired() ? "Yes" : "No")
+        << "\n";
     }
     return ret.str();
   }
