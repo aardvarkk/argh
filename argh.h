@@ -10,16 +10,16 @@
 class Option {
 public:
   Option() : parsed(false), required(false) {}
-	virtual ~Option() {};
+  virtual ~Option() {};
 
   virtual std::string getDefault()  = 0;
-	virtual std::string getMessage()  = 0;
+  virtual std::string getMessage()  = 0;
   virtual std::string getName()     = 0;
   virtual void        setValue(std::string const& val) = 0;
 
   bool         getParsed()            { return parsed;   }
-	bool         getRequired()          { return required; }
-	
+  bool         getRequired()          { return required; }
+
   virtual void setParsed(bool parsed) { this->parsed = parsed; }
 
 protected:
@@ -31,12 +31,12 @@ class OptionImpl : public Option {
 public:
   OptionImpl(T& var, T default_val, std::string const& name, bool required, std::string const& msg) : var(var)
   {
-		this->default_val = default_val;
-		this->name = name;
-		this->required = required;
-		this->msg = msg;
-		this->var = default_val;
-	}
+    this->default_val = default_val;
+    this->name = name;
+    this->required = required;
+    this->msg = msg;
+    this->var = default_val;
+  }
 
   virtual std::string getDefault() { std::stringstream ss; ss << default_val; return ss.str(); }
   std::string getName() { return name; }
@@ -67,11 +67,11 @@ class MultiOptionImpl : public Option
 public:
   MultiOptionImpl(std::vector<T>& var, std::string const& default_vals, std::string const& name, bool required, std::string const& msg, char delim) : var(var)
   {
-		this->default_vals = default_vals;
-		this->name = name;
-		this->required = required;
-		this->msg = msg;
-		this->delim = delim;
+    this->default_vals = default_vals;
+    this->name = name;
+    this->required = required;
+    this->msg = msg;
+    this->delim = delim;
     setValue(default_vals);
   }
 
@@ -160,16 +160,16 @@ public:
       }
     }
   }
-	
-	void parseEnv() {
-		for (auto o : options) {
-			auto str = getenv(o->getName().c_str());
-			if (str) {
-				o->setParsed(true);
-				o->setValue(str);
-			}
-		}
-	}
+
+  void parseEnv() {
+    for (auto o : options) {
+      auto str = getenv(o->getName().c_str());
+      if (str) {
+        o->setParsed(true);
+        o->setValue(str);
+      }
+    }
+  }
 
   template<typename T>
   void addOption(T& var, T const& default_val, std::string const& name, bool required = false, std::string const& msg = "") {
@@ -205,7 +205,7 @@ public:
         << std::setw(static_cast<int>(name_space))    << o->getName()
         << std::setw(static_cast<int>(default_space)) << o->getDefault()
         << std::setw(static_cast<int>(msg_space))     << o->getMessage()
-				<< (o->getRequired() ? "REQUIRED" : "NOT REQUIRED")
+        << (o->getRequired() ? "REQUIRED" : "NOT REQUIRED")
         << std::endl;
     }
     return ret.str();
@@ -219,15 +219,15 @@ public:
     }
     return false;
   }
-	
-	std::vector<std::string> missingRequired() {
-		std::vector<std::string> missing;
+
+  std::vector<std::string> missingRequired() {
+    std::vector<std::string> missing;
     for (auto o : options) {
       if (o->getRequired() && !o->getParsed())
-				missing.push_back(o->getName());
+        missing.push_back(o->getName());
     }
-		return missing;
-	}
+    return missing;
+  }
 
   bool load(std::string const& filename) {
     std::ifstream ifs(filename);
@@ -244,7 +244,7 @@ public:
       argv.push_back(argv_str[i].c_str());
     }
     parse(argc, &*argv.begin());
-		return true;
+    return true;
   }
 
 protected:
