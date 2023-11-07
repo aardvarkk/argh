@@ -449,6 +449,7 @@ public:
   void
   parse(int argc, CharT const* const argv[])
   {
+    std::vector<bool> is_option(argc);
     for (int i = 0; i < argc; ++i)
     {
       for (auto o : m_options)
@@ -456,13 +457,32 @@ public:
         if (string(argv[i]) == o->getName())
         {
           o->setParsed(true);
+          is_option[i] = true;
           if (i + 1 < argc)
           {
             o->setValue(argv[i + 1]);
+            is_option[i + 1] = true;
           }
         }
       }
     }
+    for (int i = 0; i < argc; ++i)
+    {
+      if (!is_option[i])
+        m_remaining_args.push_back(argv[i]);
+    }
+  }
+
+  /// Get a reference to a vector containing the command line
+  /// arguments (from the argv passed to parse()) that remain when the
+  /// recognized options are removed.  That vector is filled by
+  /// parse() so remains empty until parse() is called.
+  ///
+  /// \returns the reference
+  const std::vector<string>&
+  getRemainingArguments() const
+  {
+    return m_remaining_args;
   }
 
   /// Seek the configured options in the process environment.  Each
@@ -722,4 +742,5 @@ protected:
 
   std::vector<Option<CharT>*> m_options; //!< the options
   CharT m_delim;                         //!< the delimiter
+  std::vector<string> m_remaining_args;  //!< non-option arguments
 };
