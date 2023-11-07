@@ -5,6 +5,7 @@
 #include <iomanip>
 #include <sstream>
 #include <string>
+#include <type_traits>
 #include <vector>
 
 /// An abstract template class that represents an option.
@@ -136,8 +137,18 @@ public:
   virtual void
   setValue(string const& val)
   {
-    stringstream ss(val);
-    ss >> m_var;
+    if constexpr (std::is_same_v<T, string>)
+    {
+      // If the target is a string then we must not use the
+      // stringstream (i.e., the "else" clause of this if-statement)
+      // because that extracts only the text up to the first
+      // whitespace.
+      m_var = val;
+    }
+    else {
+      stringstream ss(val);
+      ss >> m_var;
+    }
   }
 
 protected:
@@ -257,12 +268,26 @@ public:
   {
     m_var.clear();
     stringstream ss(val);
-    T elem;
-    for (string val_str; std::getline(ss, val_str, m_delim);)
+    if constexpr (std::is_same_v<T, string>)
     {
-      stringstream st(val_str);
-      st >> elem;
-      m_var.push_back(elem);
+      // If the target is a vector of strings then we must not use
+      // stringstream st (i.e., the "else" clause of this
+      // if-statement) because that extracts only the text up to the
+      // first whitespace.
+      for (string val_str; std::getline(ss, val_str, m_delim);)
+      {
+        m_var.push_back(val_str);
+      }
+    }
+    else
+    {
+      T elem;
+      for (string val_str; std::getline(ss, val_str, m_delim);)
+      {
+        stringstream st(val_str);
+        st >> elem;
+        m_var.push_back(elem);
+      }
     }
   }
 
